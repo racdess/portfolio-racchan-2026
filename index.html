@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sze Ching Chan (Rac) — Product Designer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            purple: '#8B5CF6',
+                            dark: '#1e293b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #030712; color: #e2e8f0; overflow-x: hidden; }
+        
+        /* Ambient Glowing Orbs Background */
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -60px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .orb-1 { animation: drift 15s infinite alternate ease-in-out; }
+        .orb-2 { animation: drift 18s infinite alternate-reverse ease-in-out; }
+        .orb-3 { animation: drift 22s infinite alternate ease-in-out; }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255,255,255,0.1);
+        }
+        .glass-nav {
+            background: rgba(3, 7, 18, 0.6);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-button {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Accordion */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        /* Premium Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-purple selection:text-white relative">
+
+    <!-- Ambient Glowing Orbs Background -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-purple-900/20 rounded-full blur-[140px] orb-1 mix-blend-screen"></div>
+        <div class="absolute bottom-[10%] right-[-10%] w-[50vw] h-[50vw] bg-blue-900/15 rounded-full blur-[140px] orb-2 mix-blend-screen"></div>
+        <div class="absolute top-[30%] left-[50%] w-[45vw] h-[45vw] bg-pink-900/15 rounded-full blur-[140px] orb-3 mix-blend-screen"></div>
+    </div>
+
+   <!-- Navigation -->
+   <nav class="glass-nav fixed w-full top-0 z-40 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="text-xl font-bold tracking-tight text-white hover:text-purple-400 transition-colors">Sze Ching Chan</a>
+        <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wider uppercase text-slate-300">
+            <a href="#work" class="hover:text-purple-400 transition-colors">Work</a>
+            <a href="#experience" class="hover:text-purple-400 transition-colors">Experience</a>
+            <!-- 把原本的 Resume 改成了連向 Skills 區塊的錨點 -->
+            <a href="#skills" class="hover:text-purple-400 transition-colors">Skills</a>
+        </div>
+    </div>
+</nav>
+
+    <!-- Hero Section (Split-Screen Full Width) -->
+    <section class="relative w-full min-h-[100vh] flex flex-col-reverse md:flex-row items-center pt-20 md:pt-0">
+        
+        <!-- Left: Text Content -->
+        <div class="w-full md:w-1/2 px-6 md:pl-12 lg:pl-24 xl:pl-32 py-16 md:py-0 z-10 reveal">
+            <div class="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-brand-purple/10 border border-brand-purple/20 text-xs font-bold text-purple-300 mb-8 uppercase tracking-widest">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Product Designer
+            </div>
+            <h1 class="text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-8">
+                 RAC CHAN
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 mb-10 leading-relaxed max-w-lg font-light">
+                A product designer with 3 years experience in UXUI and project management.
+            <div class="flex flex-wrap gap-4">
+                <a href="#work" class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-widest rounded-full bg-brand-purple hover:bg-purple-500 text-white transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:-translate-y-1 gap-3">
+                    View Work <i class="fa-solid fa-arrow-down"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Right: Full Bleed Image & Floating Icons -->
+        <div class="w-full md:w-1/2 h-[50vh] md:h-screen relative reveal delay-100">
+            <!-- Smooth gradient blend for dark mode (desktop only) -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#030712] via-transparent to-transparent z-10 pointer-events-none hidden md:block"></div>
+            
+            <img src="images/me-main.webp" alt="Sze Ching Chan" class="w-full h-full object-cover object-center">
+            
+            <!-- Global Floating LinkedIn Icon -->
+            <div class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50">
+                <a href="https://www.linkedin.com/in/szechingchan-rac" target="_blank" rel="noopener noreferrer" 
+                   class="flex items-center justify-center w-14 h-14 bg-black/40 backdrop-blur-xl border border-white/10 rounded-[1rem] shadow-[0_10px_30px_rgba(139,92,246,0.2)] hover:bg-brand-purple hover:border-brand-purple hover:-translate-y-1 hover:scale-105 transition-all duration-300" 
+                   title="Connect on LinkedIn">
+                    <i class="fa-brands fa-linkedin-in text-2xl text-white"></i>
+                </a>
+            </div>
+
+    </section>
+
+   <!-- Personal Philosophy Quote Section -->
+   <section class="py-16 md:py-24 px-6 relative z-10 border-y border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-inner">
+    <div class="max-w-4xl mx-auto text-center reveal">
+        <i class="fa-solid fa-quote-left text-2xl md:text-3xl text-brand-purple/60 mb-8 transform -translate-x-2"></i>
+        
+        <p class="text-base md:text-lg text-slate-200 font-medium leading-relaxed mb-8">
+            "As a designer, I take a pragmatic and data-driven approach to problem-solving.
+        </p>
+        
+        <p class="text-base md:text-lg text-slate-200 font-medium leading-relaxed">
+            I know how to be flexible, but I also know when to slow down and perfect the details.""
+        </p>
+    </div>
+</section>
+
+   <<!-- Editorial Projects Section -->
+   <section id="work" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-sm font-bold tracking-widest text-slate-400 uppercase mb-16 reveal border-b border-white/10 pb-4">Selected Work</h2>
+        
+        <div class="flex flex-col gap-24 lg:gap-32">
+            
+            <!-- Project 1: Revolve Pizza Oven (Left Image, Right Text) -->
+            <a href="https://revolve-redesign-racchan.netlify.app" target="_blank" rel="noopener noreferrer" class="group flex flex-col md:flex-row gap-10 lg:gap-16 items-center reveal cursor-pointer block">
+                <!-- Image -->
+                <div class="w-full md:w-3/5 glass-panel p-2.5 rounded-[2.5rem] overflow-hidden transition-all duration-500 group-hover:-translate-y-2 group-hover:border-purple-500/30 group-hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.2)]">
+                    <div class="overflow-hidden rounded-[2rem] aspect-[5/4] relative">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                        <img src="images/revolve-main.webp" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Revolve Pizza Oven" onerror="this.src='https://placehold.co/1000x800/1e293b/64748b?text=Revolve+Pizza+Oven'">
+                    </div>
+                </div>
+                <!-- Context -->
+                <div class="w-full md:w-2/5 flex flex-col items-start text-left">
+                    <div class="inline-flex gap-3 text-[10px] font-bold text-purple-400 bg-purple-500/10 px-3 py-1.5 rounded-full uppercase tracking-widest mb-6">
+                        <span>E-commerce</span> &bull; <span>Jan-Mar 2025</span>
+                    </div>
+                    <h3 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">Revolve Pizza Oven</h3>
+                    <p class="text-base md:text-lg text-slate-400 font-light leading-relaxed mb-8">
+                        Redesigning the Shopify architecture and digital product experience for the flagship "Evolve" model to drive conversions in a saturated market.
+                    </p>
+                    <span class="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2 group-hover:text-purple-400 transition-colors">
+                        VIEW PROJECT <i class="fa-solid fa-arrow-right-long transform group-hover:translate-x-2 transition-transform"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Project 2: Lango Buddy (Right Image, Left Text - Alternating Layout) -->
+            <a href="https://langobuddy-2025-racchan.netlify.app/" target="_blank" rel="noopener noreferrer" class="group flex flex-col md:flex-row-reverse gap-10 lg:gap-16 items-center reveal cursor-pointer block">
+                <!-- Image -->
+                <div class="w-full md:w-3/5 glass-panel p-2.5 rounded-[2.5rem] overflow-hidden transition-all duration-500 group-hover:-translate-y-2 group-hover:border-pink-500/30 group-hover:shadow-[0_20px_40px_-15px_rgba(236,72,153,0.2)]">
+                    <div class="overflow-hidden rounded-[2rem] aspect-[5/4] relative">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                        <!-- 請確認這裡的路徑，如果你剛才是放同一層，請改為 src="langobuddy-main.webp" -->
+                        <img src="images/langobuddy-main.webp" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Lango Buddy" onerror="this.src='https://placehold.co/1000x800/1e293b/64748b?text=Lango+Buddy'">
+                    </div>
+                </div>
+                <!-- Context -->
+                <div class="w-full md:w-2/5 flex flex-col items-start text-left">
+                    <div class="inline-flex gap-3 text-[10px] font-bold text-pink-400 bg-pink-500/10 px-3 py-1.5 rounded-full uppercase tracking-widest mb-6">
+                        <span>Mobile App / AI English</span>
+                    </div>
+                    <h3 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">Lango Buddy</h3>
+                    <p class="text-base md:text-lg text-slate-400 font-light leading-relaxed mb-8">
+                        Designing tailored characters and gamified chat missions to eliminate students' fear of judgment and increase learning retention by 92%.
+                    </p>
+                    <span class="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2 group-hover:text-pink-400 transition-colors">
+                        VIEW PROJECT <i class="fa-solid fa-arrow-right-long transform group-hover:translate-x-2 transition-transform"></i>
+                    </span>
+                </div>
+            </a>
+
+
+                <!-- Project 3: Haloo Brands (圖片在左，文字在右) -->
+                <a href="https://haloobrands.com/" target="_blank" rel="noopener noreferrer" class="group flex flex-col md:flex-row gap-10 lg:gap-16 items-center reveal cursor-pointer block">
+                    <!-- Image (左) -->
+                    <div class="w-full md:w-3/5 glass-panel p-2.5 rounded-[2.5rem] overflow-hidden transition-all duration-500 group-hover:-translate-y-2 group-hover:border-blue-500/30 group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)]">
+                        <div class="overflow-hidden rounded-[2rem] aspect-[5/4] relative">
+                            <!-- Work in Progress 遮罩與標籤 -->
+                            <div class="absolute inset-0 bg-black/40 z-10 flex items-center justify-center transition-colors duration-500 group-hover:bg-black/20">
+                                <span class="px-5 py-2.5 bg-black/60 backdrop-blur-md rounded-full text-xs font-bold tracking-widest text-slate-200 uppercase border border-white/10 shadow-lg">
+                                    Work in Progress
+                                </span>
+                            </div>
+                            <img src="images/haloo-main.webp" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Haloo Brands" onerror="this.src='https://placehold.co/1000x800/1e293b/64748b?text=Haloo+Brands'">
+                        </div>
+                    </div>
+                    <!-- Context (右) -->
+                    <div class="w-full md:w-2/5 flex flex-col items-start text-left">
+                        <div class="inline-flex gap-3 text-[10px] font-bold text-blue-400 bg-blue-500/10 px-3 py-1.5 rounded-full uppercase tracking-widest mb-6">
+                            <span>B2B E-commerce</span> &bull; <span>Jun-Aug 2025</span>
+                        </div>
+                        <h3 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">Haloo Brands</h3>
+                        <p class="text-base md:text-lg text-slate-400 font-light leading-relaxed mb-8">
+                            Driving B2B e-commerce growth through a comprehensive website revamp, strategic brand positioning, and streamlined wholesale ordering.
+                        </p>
+                        <span class="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2 group-hover:text-blue-400 transition-colors">
+                            VISIT THE WEBSITE <i class="fa-solid fa-arrow-up-right-from-square transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Work Experience Section (Accordion) -->
+    <section id="experience" class="py-24 px-6 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-sm font-bold tracking-widest text-slate-400 uppercase mb-16 reveal border-b border-white/10 pb-4">Experience</h2>
+            
+            <div class="space-y-4">
+                <!-- Northwest Sourcing -->
+                <div class="bg-white/[0.02] border border-white/[0.05] hover:border-white/20 transition-colors duration-300 rounded-[2rem] reveal overflow-hidden">
+                    <button class="accordion-btn w-full px-8 py-7 flex justify-between items-center text-left focus:outline-none group">
+                        <div>
+                            <h3 class="text-xl font-bold text-white group-hover:text-brand-purple transition-colors">Product Designer</h3>
+                            <p class="text-slate-400 font-medium mt-1">NorthWest Sourcing Asia Limited &bull; <span class="text-sm font-light">2025 – 2026</span></p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand-purple/20 transition-colors">
+                            <i class="fa-solid fa-chevron-down text-slate-400 group-hover:text-brand-purple transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content px-8">
+                        <ul class="pb-8 space-y-4 text-slate-300 text-sm md:text-base font-light">
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-compass-drafting text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Led end-to-end digital redesign of Shopify platforms (Revolve B2C, Haloo B2B), increasing conversion rates by 80%.</span></li>
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-bullhorn text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Formulated social media and marketing collateral strategies expanding brand reach by 120%.</span></li>
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-users text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Managed independent design projects and stakeholder liaison directly with Costco buyers.</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Lango -->
+                <div class="bg-white/[0.02] border border-white/[0.05] hover:border-white/20 transition-colors duration-300 rounded-[2rem] reveal delay-100 overflow-hidden">
+                    <button class="accordion-btn w-full px-8 py-7 flex justify-between items-center text-left focus:outline-none group">
+                        <div>
+                            <h3 class="text-xl font-bold text-white group-hover:text-brand-purple transition-colors">UI/UX Designer</h3>
+                            <p class="text-slate-400 font-medium mt-1">Lango &bull; <span class="text-sm font-light">2023 – 2024</span></p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand-purple/20 transition-colors">
+                            <i class="fa-solid fa-chevron-down text-slate-400 group-hover:text-brand-purple transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content px-8">
+                        <ul class="pb-8 space-y-4 text-slate-300 text-sm md:text-base font-light">
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-mobile-screen text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Led design of "Lango Buddy", securing 12 new school subscriptions and boosting adoption to 92%.</span></li>
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-vial text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Partnered with 5 community schools to conduct regular usability assessments with primary students.</span></li>
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-layer-group text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Designed a comprehensive design system streamlining developer collaboration.</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Cultural Infusion -->
+                <div class="bg-white/[0.02] border border-white/[0.05] hover:border-white/20 transition-colors duration-300 rounded-[2rem] reveal delay-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-8 py-7 flex justify-between items-center text-left focus:outline-none group">
+                        <div>
+                            <h3 class="text-xl font-bold text-white group-hover:text-brand-purple transition-colors">UX Intern</h3>
+                            <p class="text-slate-400 font-medium mt-1">Cultural Infusion &bull; <span class="text-sm font-light">2024</span></p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-brand-purple/20 transition-colors">
+                            <i class="fa-solid fa-chevron-down text-slate-400 group-hover:text-brand-purple transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content px-8">
+                        <ul class="pb-8 space-y-4 text-slate-300 text-sm md:text-base font-light">
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-pen-nib text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Assisted in membership website experience design, driving +150 individual sign-ups.</span></li>
+                            <li class="flex items-start gap-4"><i class="fa-solid fa-universal-access text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Audited website accessibility based on +70 user surveys to improve inclusion metrics.</span></li>
+                            <li class="flex items-start gap-4"><i class="fa-brands fa-figma text-brand-purple mt-1 opacity-80"></i> <span class="leading-relaxed">Created a reusable component library in Figma for future scaling.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SKILLS RADAR CHART SECTION                 -->
+    <!-- ========================================== -->
+    <section id="skills" class="py-24 w-full relative z-10">
+        <div class="max-w-6xl mx-auto px-6 md:px-12 reveal">
+            
+            <h2 class="text-sm font-bold tracking-widest text-slate-400 uppercase mb-16 border-b border-white/10 pb-4">Skills & Expertise</h2>
+
+            <!-- 3 Columns for Radar Charts -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Chart 1: Project Management (Blue Theme) -->
+                <div class="glass-panel rounded-[2rem] p-8 flex flex-col items-center hover:-translate-y-2 transition-transform duration-300 group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-full flex items-center justify-center mb-6 border border-blue-500/30 group-hover:bg-blue-500/20 transition-colors">
+                        <i class="fa-solid fa-list-check text-blue-400 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-8 text-center">Project Management</h4>
+                    <div class="w-full max-w-[280px] aspect-square relative">
+                        <canvas id="pmChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: UX Design (Pink Theme) -->
+                <div class="glass-panel rounded-[2rem] p-8 flex flex-col items-center hover:-translate-y-2 transition-transform duration-300 group">
+                    <div class="w-14 h-14 bg-pink-500/10 rounded-full flex items-center justify-center mb-6 border border-pink-500/30 group-hover:bg-pink-500/20 transition-colors">
+                        <i class="fa-solid fa-pen-nib text-pink-400 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-8 text-center">UX Design</h4>
+                    <div class="w-full max-w-[280px] aspect-square relative">
+                        <canvas id="uxChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Tools & Others (Purple Theme) -->
+                <div class="glass-panel rounded-[2rem] p-8 flex flex-col items-center hover:-translate-y-2 transition-transform duration-300 group">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-full flex items-center justify-center mb-6 border border-purple-500/30 group-hover:bg-purple-500/20 transition-colors">
+                        <i class="fa-solid fa-screwdriver-wrench text-purple-400 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-8 text-center">Tools & Others</h4>
+                    <div class="w-full max-w-[280px] aspect-square relative">
+                        <canvas id="toolsChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+  <!-- NEW EDITORIAL FOOTER -->
+  <footer class="py-24 text-center relative z-10 border-t border-white/10 mt-20">
+    <div class="max-w-4xl mx-auto px-6 reveal">
+        <h2 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-10">Thanks for stopping by, let's chat! 👋</h2>
+        
+        <a href="https://www.linkedin.com/in/szechingchan-rac" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-10 py-5 bg-brand-purple text-white font-bold text-sm tracking-widest uppercase rounded-full hover:bg-purple-500 hover:-translate-y-1 transition-all shadow-[0_10px_20px_rgba(139,92,246,0.3)] mb-16">
+            Contact on LinkedIn <i class="fa-brands fa-linkedin text-lg ml-3"></i>
+        </a>
+        
+        <div class="flex justify-center gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest mb-10">
+            <a href="https://www.linkedin.com/in/szechingchan-rac" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple transition-colors">LinkedIn</a>
+            <a href="resume.pdf" download class="hover:text-brand-purple transition-colors">Resume</a>
+            <a href="#work" class="hover:text-brand-purple transition-colors">Work</a>
+        </div>
+        
+        <p class="text-slate-600 text-xs font-semibold tracking-wider uppercase">© 2026 Sze Ching Chan. Made with 💛 & 🍵.</p>
+    </div>
+</footer>
+
+    <!-- HIDDEN CASE STUDY TEMPLATES (Content injected into Modal) -->
+    <div id="project-templates" class="hidden">
+        <!-- Haloo Template -->
+        <div id="template-haloo" class="p-8 md:p-12">
+            <h4 class="text-2xl font-bold text-white mb-6">B2B Design Strategy</h4>
+            <div class="glass-panel p-8 rounded-3xl text-slate-300 space-y-4">
+                <p>[Placeholder for understanding B2B wholesale buyers and bulk ordering workflows for Haloo Brands]</p>
+                <p>[Placeholder for Decision Making: prioritizing data presentation and streamlined checkouts]</p>
+            </div>
+        </div>
+    </div> 
+
+    <!-- Full-Screen Modal Overlay -->
+    <div id="project-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-3xl hidden items-center justify-center p-0 md:p-8 opacity-0 transition-opacity duration-300">
+        <div id="modal-container" class="glass-panel bg-black/80 rounded-none md:rounded-[2.5rem] w-full h-full md:max-h-[90vh] overflow-y-auto relative flex flex-col max-w-5xl border-white/10">
+            
+            <!-- Modal Header -->
+            <div class="sticky top-0 z-20 flex items-center justify-between p-4 md:p-6 bg-black/60 backdrop-blur-3xl border-b border-white/10">
+                <div class="font-bold text-xs uppercase tracking-widest text-slate-400" id="modal-header-text">Case Study</div>
+                <div class="flex gap-3">
+                    <button id="expand-modal-btn" class="w-10 h-10 rounded-full glass-button text-slate-300 flex items-center justify-center">
+                        <i class="fa-solid fa-expand text-sm"></i>
+                    </button>
+                    <button id="modal-close" class="w-10 h-10 rounded-full glass-button text-slate-300 flex items-center justify-center">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Default Hero Image -->
+            <div id="modal-default-hero" class="w-full hidden border-b border-white/10">
+                <div class="aspect-video w-full overflow-hidden max-w-4xl mx-auto pt-8 px-8">
+                    <img id="modal-image" src="" alt="Preview" class="w-full h-full object-cover rounded-t-3xl shadow-2xl border-t border-l border-r border-white/10">
+                </div>
+                <div class="p-8 md:p-12 text-center max-w-3xl mx-auto">
+                    <h3 id="modal-title" class="text-3xl md:text-5xl font-bold text-white tracking-tight">Title</h3>
+                </div>
+            </div>
+
+            <!-- Dynamic Body Content -->
+            <div id="modal-desc" class="w-full"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Scroll Animations (Reveal)
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => scrollObserver.observe(el));
+
+        // Accordion Logic
+        document.querySelectorAll('.accordion-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('project-modal');
+        const modalContainer = document.getElementById('modal-container');
+        const expandBtn = document.getElementById('expand-modal-btn');
+        let isFullscreen = false;
+
+        document.querySelectorAll('.group[data-template-id]').forEach(card => {
+            card.addEventListener('click', (event) => {
+                if(card.tagName.toLowerCase() === 'a') return; 
+                
+                const templateId = card.getAttribute('data-template-id');
+                document.getElementById('modal-desc').innerHTML = document.getElementById(templateId).innerHTML;
+                
+                document.getElementById('modal-default-hero').classList.remove('hidden');
+                document.getElementById('modal-title').textContent = card.getAttribute('data-title');
+                document.getElementById('modal-image').src = card.getAttribute('data-image');
+
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }, 300); 
+        }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+
+        // Fullscreen Toggle
+        expandBtn.addEventListener('click', () => {
+            isFullscreen = !isFullscreen;
+            const icon = expandBtn.querySelector('i');
+            if(isFullscreen) {
+                modalContainer.classList.remove('max-w-5xl', 'md:rounded-[2.5rem]', 'md:max-h-[90vh]');
+                modalContainer.classList.add('w-full', 'h-full', 'max-w-none');
+                modal.classList.remove('md:p-8');
+                icon.className = 'fa-solid fa-compress text-sm';
+            } else {
+                modalContainer.classList.add('max-w-5xl', 'md:rounded-[2.5rem]', 'md:max-h-[90vh]');
+                modalContainer.classList.remove('w-full', 'h-full', 'max-w-none');
+                modal.classList.add('md:p-8');
+                icon.className = 'fa-solid fa-expand text-sm';
+            }
+        });
+    </script>
+
+    <!-- CHART.JS INITIALIZATION SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textColor = '#94a3b8'; // Slate-400
+            const gridColor = 'rgba(255,255,255,0.06)';
+
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleFont: { family: 'Inter', size: 14 },
+                        bodyFont: { family: 'Inter', size: 13, weight: 'bold' },
+                        displayColors: false,
+                        callbacks: { label: function(context) { return ' Level: ' + context.raw + ' / 5'; } }
+                    }
+                },
+                scales: {
+                    r: {
+                        min: 0, max: 5,
+                        ticks: { stepSize: 1, display: false },
+                        grid: { color: gridColor },
+                        angleLines: { color: gridColor },
+                        pointLabels: {
+                            font: { family: 'Inter', size: 11, weight: '500' },
+                            color: textColor
+                        }
+                    }
+                }
+            };
+
+            // 1. PM Chart (Blue Theme)
+            new Chart(document.getElementById('pmChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Stakeholder Mgt.', 'Info Synthesis', 'Cross-functional', 'Risk Mitigation', 'Agile Method', 'Sprint Planning'],
+                    datasets: [{
+                        data: [5, 4, 4, 3, 4, 4],
+                        backgroundColor: 'rgba(59, 130, 246, 0.25)',
+                        borderColor: '#3B82F6', borderWidth: 2,
+                        pointBackgroundColor: '#030712', pointBorderColor: '#3B82F6',
+                        pointHoverBackgroundColor: '#3B82F6', pointHoverBorderColor: '#fff'
+                    }]
+                }, options: commonOptions
+            });
+
+            // 2. UX Chart (Pink Theme)
+            new Chart(document.getElementById('uxChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Research Analysis', 'Info Architecture', 'Journey Mapping', 'Usability Testing', 'Visual Design', 'Prototyping'],
+                    datasets: [{
+                        data: [5, 5, 4, 4, 4, 5],
+                        backgroundColor: 'rgba(236, 72, 153, 0.25)',
+                        borderColor: '#EC4899', borderWidth: 2,
+                        pointBackgroundColor: '#030712', pointBorderColor: '#EC4899',
+                        pointHoverBackgroundColor: '#EC4899', pointHoverBorderColor: '#fff'
+                    }]
+                }, options: commonOptions
+            });
+
+            // 3. Tools Chart (Purple Theme)
+            new Chart(document.getElementById('toolsChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Collaboration (Miro)', 'Microsoft Suite', 'E-commerce (Shopify)', 'Data (Analytics)', 'Web Coding', 'Digital Art', 'Figma & UI Tools', 'Version Control', 'Prototyping'],
+                    datasets: [{
+                        data: [4, 4, 4, 3, 2, 4, 5, 3, 5],
+                        backgroundColor: 'rgba(139, 92, 246, 0.25)', 
+                        borderColor: '#8B5CF6', borderWidth: 2,
+                        pointBackgroundColor: '#030712', pointBorderColor: '#8B5CF6',
+                        pointHoverBackgroundColor: '#8B5CF6', pointHoverBorderColor: '#fff'
+                    }]
+                }, options: commonOptions
+            });
+        });
+    </script>
+</body>
+</html>
